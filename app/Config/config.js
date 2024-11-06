@@ -1,0 +1,12 @@
+export const MONGODB_CONNECTION = ""
+export const JWT_SECRET = "sfdgb54dfs34gsg54gfs36"
+export const JWT_EXPIRES = 60 * 60 * 24 * 30;
+export const EMAIL_HOST = "";
+export const EMALIL_PORT = "";
+export const EMAIL_PASSWORD = "";
+export const MAX_JSON_SIZE = "50md"
+export const URL_ENCODED = true;
+export const REQUEST_LIMIT_NUMBER = 3000;
+export const REQUEST_LIMIT_TIME = 15 * 60 * 100;
+export const WEB_CACHE = false;
+export const PORT = 2002;

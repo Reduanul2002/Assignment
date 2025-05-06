@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+           <meta charset="UTF-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <title>Spin Wheel</title>
+           <link rel="stylesheet" href="/spin/spin.css">
+</head>
+<body>
+           <div class="container">
+                      <div class="spinBtn">Spin</div>
+                      <div class="Wheel">
+                                 <div class="number" style="--i:1;--clr:#05f725;"><span>100</span></div>
+                                 <div class="number" style="--i:2;--clr:#bf06f7;"><span>1</span></div>
+                                 <div class="number" style="--i:3;--clr:#f3b509;"><span>50</span></div>
+                                 <div class="number" style="--i:4;--clr:#f506c1;"><span>0</span></div>
+                                 <div class="number" style="--i:5;--clr:#ec0955;"><span>1000</span></div>
+                                 <div class="number" style="--i:6;--clr:#fcf805;"><span>10</span></div>
+                                 <div class="number" style="--i:7;--clr:#03fcd2;"><span>5</span></div>
+                                 <div class="number" style="--i:8;--clr:#f39509;"><span>20</span></div>
+                      </div>
+           </div><!--
+           <script>
+                      let wheel = document.querySelector('.Wheel');
+                      let spinBtn = document.querySelector('.spinBtn');
+                      let value = 0; // start from 0
+                    
+                      spinBtn.onclick = function() {
+                        value += Math.floor(3600 + Math.random() * 3600); // rotate between 3600°–7200° for realism
+                        wheel.style.transform = `rotate(${value}deg)`;
+                      };
+                    </script>-->
+                    <script>
+                      const wheel = document.querySelector('.Wheel');
+                      const spinBtn = document.querySelector('.spinBtn');
+                      let deg = 0;
+                  
+                      spinBtn.addEventListener('click', () => {
+                        // Spin value: 3600-7200 (10-20 full spins)
+                        let spin = Math.floor(3600 + Math.random() * 3600);
+                        deg += spin;
+                  
+                        wheel.style.transform = `rotate(${deg}deg)`;
+                  
+                        // Wait for animation to finish
+                        setTimeout(() => {
+                          const finalDeg = deg % 360;
+                          const segment = Math.floor(8 - finalDeg / 45) % 8;
+                          const values = ['100', '1', '50', '0', '1000', '10', '5', '20'];
+                          const prize = values[segment >= 0 ? segment : segment + 8];
+                          alert("🎉 You Win $" + prize);
+                        }, 5000); // Wait 5 seconds (same as transition time)
+                      });
+                    </script>
+                    
+                    
+</body>
+</html>

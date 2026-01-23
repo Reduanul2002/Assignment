@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,11 +31,31 @@ class _HomeScreenState extends State<HomeScreen> {
   //   }
   //   setState(() {});
   // }
+  @override
+  void initState() {
+    super.initState();
+    FirebaseCrashlytics.instance.log('Entering into home screen');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Footbal Live Score')),
+      appBar: AppBar(
+        title: Text('Footbal Live Score ${FirebaseAuth.instance.currentUser?.email}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAnalytics.instance.logEvent(name: 'Tired Logout',parameters: {
+                'userId': FirebaseAuth.instance.currentUser!.uid,
+                'email': FirebaseAuth.instance.currentUser!.email!,
+              });
+              throw Exception('My exception');
+              FirebaseAuth.instance.signOut();
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: StreamBuilder(
         stream: _firestore.collection('football').snapshots(),
         builder: (context, asyncSnapshot) {
@@ -45,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (asyncSnapshot.hasData) {
             _footballmatches.clear();
             for (QueryDocumentSnapshot<Map<String, dynamic>> doc
-            in asyncSnapshot.data!.docs) {
+                in asyncSnapshot.data!.docs) {
               _footballmatches.add(FootballMatch.fromJson(doc.data()));
             }
             return _buildListView();
@@ -58,37 +81,45 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           FloatingActionButton(
             onPressed: () {
-        //add button
-        FootballMatch match = FootballMatch(
-        team1Name: 'Uruguay',
-        team2Name: 'Brazil',
-        team1Score: 7,
-        team2Score: 3,
-        isRunning: true,
-        winnerTeam: '');
-    _firestore.collection('football').doc('uruvsbra').set(match.toJason());
-  },
-    child: Icon(Icons.add),
-    ),
-    FloatingActionButton(
-      onPressed: () {
-        //update button
-        FootballMatch match = FootballMatch(
-            team1Name: 'Uruguay',
-            team2Name: 'Brazil',
-            team1Score: 1,
-            team2Score: 2,
-            isRunning: false,
-            winnerTeam: '');
-        _firestore.collection('football').doc('uruvsbra').update(
-            match.toJason());
-      },
-      child: Icon(Icons.update),
-    ),
-    ]
-      )
+              //add button
+              FootballMatch match = FootballMatch(
+                team1Name: 'Uruguay',
+                team2Name: 'Brazil',
+                team1Score: 7,
+                team2Score: 3,
+                isRunning: true,
+                winnerTeam: '',
+              );
+              _firestore
+                  .collection('football')
+                  .doc('uruvsbra')
+                  .set(match.toJason());
+            },
+
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              //update button
+              FootballMatch match = FootballMatch(
+                team1Name: 'Uruguay',
+                team2Name: 'Brazil',
+                team1Score: 7,
+                team2Score: 3,
+                isRunning: false,
+                winnerTeam: '',
+              );
+              _firestore
+                  .collection('football')
+                  .doc('uruvsbra')
+                  .update(match.toJason());
+            },
+            child: Icon(Icons.update),
+          ),
+        ],
+      ),
     );
-    }
+  }
 
   Widget _buildListView() {
     return ListView.separated(
@@ -138,16 +169,16 @@ class FootballMatch {
 
   factory FootballMatch.fromJson(Map<String, dynamic> jsonData) {
     return FootballMatch(
-      team1Name: jsonData['team1_Name'] ,
-      team2Name: jsonData['team2_Name'] ,
-      team1Score: jsonData['team1_Score'] ,
-      team2Score: jsonData['team2_Score'] ,
-      isRunning: jsonData['is_Running'] ,
-      winnerTeam: jsonData['winner_Team'] ,
+      team1Name: jsonData['team1_Name'],
+      team2Name: jsonData['team2_Name'],
+      team1Score: jsonData['team1_Score'],
+      team2Score: jsonData['team2_Score'],
+      isRunning: jsonData['is_Running'],
+      winnerTeam: jsonData['winner_Team'],
     );
   }
-  Map<String, dynamic> toJason(){
-    return{
+  Map<String, dynamic> toJason() {
+    return {
       'team1_Name': team1Name,
       'team2_Name': team2Name,
       'team1_Score': team1Score,

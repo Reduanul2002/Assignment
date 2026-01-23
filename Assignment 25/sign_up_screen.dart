@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_p/Assignment%2025/home_screen.dart';
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -59,7 +61,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   return null;
                 },
               ),
-              FilledButton(onPressed: _onTapSignUpButton, child: Text('Sign up')),
+              FilledButton(onPressed: _onTapSignUpButton,
+                  child: Text('Sign up'),
+              ),
+              TextButton(onPressed: _onTapSignInButton,
+                child: Text('Sign In'),
+              ),
             ],
           ),
         ),
@@ -67,10 +74,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<void> _onTapSignUpButton() async{
+  Future<void> _onTapSignUpButton() async {
     if (_formkey.currentState!.validate()) {
       try {
-           await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
             email: _emailTEController.text,
             password: _passwordTEController.text);
@@ -79,19 +86,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               content: Text('User creat successfull'),
             )
         );
-      }catch (e){
+      } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(e.toString()),
+              content: Text(e.message.toString()),
             )
         );
       }
     }
+  }
+   void _onTapSignInButton(){
+    Navigator.pop(context);
+   }
+
     @override
-    void  q1dispose() {
+    void  dispose() {
       _emailTEController.dispose();
       _passwordTEController.dispose();
       super.dispose();
     }
   }
-}
+

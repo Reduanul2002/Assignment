@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="images/ChatGPT Image May 9, 2026, 04_53_49 AM.png">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+
+ <header>
+    
+  <div class="logo">
+    <img src="images/ChatGPT Image May 9, 2026, 04_53_49 AM.png " width="100" height="100" alt="logo" >
+  </div>
+<div class="logo"><h1>Reduan's World </h1></div>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="product.html">Products</a>
+     <span id="auth-link"><a href="login.html">Login</a></span>
+    <button id="logoutBtn" style="display:none;">
+  Logout
+</button>
+  </nav>
+</header>
+
+<div style="text-align: center;"><h1>Admin Dashboard</h1></div>
+<div class="admin-form">
+  <input type="text" id="pname" placeholder="Product Name">
+  <input type="number" id="pprice" placeholder="Price">
+  <input type="text" id="pimage" placeholder="Image URL">
+
+  <button onclick="addProduct()">Add Product</button>
+</div>
+
+<div id="adminProducts"></div>
+
+<script>
+function addProduct() {
+  fetch("http://localhost:3000/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      price: document.getElementById("price").value,
+      image: document.getElementById("image").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Product Added!");
+    console.log(data);
+  });
+}
+</script>
+<script src="js/products.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

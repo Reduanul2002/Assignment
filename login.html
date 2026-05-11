@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/x-icon" href="images/ChatGPT Image May 9, 2026, 04_53_49 AM.png">
+
+  <title>User System</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    
+  <div class="logo">
+    <img src="images/ChatGPT Image May 9, 2026, 04_53_49 AM.png " width="100" height="100" alt="logo" >
+  </div>
+  <div class="logo" >
+    <nav id="display">
+    <a href="index.html">
+   Reduan's World
+    </a>
+    </nav>
+  </div>
+  <nav>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <span id="auth-link"><a href=""></a></span>
+    
+  </nav>
+</header>
+<div class="login-box">
+
+  <h2>User System</h2>
+
+  <!-- Tabs -->
+  <div style="display:flex; gap:5px; margin-bottom:15px;">
+    <button onclick="showTab('login')">Login</button>
+    <button onclick="showTab('register')">Register</button>
+    <button onclick="showTab('forgot')">Forgot</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+
+    <input type="text" id="phone" placeholder="Mobile Number">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="loginUser()">User Login</button>
+    <button onclick="loginAdmin()">Admin Login</button>
+
+  </div>
+
+  <!-- REGISTER -->
+  <div id="registerBox" style="display:none;">
+
+    <input type="text" id="regPhone" placeholder="Mobile Number">
+    <input type="password" id="regPassword" placeholder="Password">
+
+    <button onclick="registerUser()">Register</button>
+
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div id="forgotBox" style="display:none;">
+
+    <input type="text" id="forgotPhone" placeholder="Mobile Number">
+    <input type="password" id="newPassword" placeholder="New Password">
+
+    <button onclick="resetPassword()">Reset Password</button>
+
+  </div>
+
+</div>
+
+<script src="js/auth.js"></script>
+
+<script>
+function showTab(tab){
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("registerBox").style.display = "none";
+  document.getElementById("forgotBox").style.display = "none";
+
+  if(tab === "login"){
+    document.getElementById("loginBox").style.display = "block";
+  }
+
+  if(tab === "register"){
+    document.getElementById("registerBox").style.display = "block";
+  }
+
+  if(tab === "forgot"){
+    document.getElementById("forgotBox").style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
